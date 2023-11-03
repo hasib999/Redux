@@ -1,63 +1,68 @@
-const {createStore} = require("redux")
+// state - count:0
+//action - increment,decrement,reset
+//reducer
+//store
 
-//defining constants
+const { createStore } = require("redux")
+
 const INCREMENT = 'INCREMENT'
 const DECREMENT = 'DECREMENT'
+const RESET = 'RESET'
 
-//state
-const initialCounterState = {
-    count:0,
+const intialState = {
+    count:0
 }
 
-//action -> Object - type, payload
-const incrementCounter = () =>{
+const incrementAction = () => {
     return{
-        type : INCREMENT,
-    };
-};
+        type : INCREMENT
+    }
+}
 
-const decrementCounter = () =>{
+const decrementAction = () => {
     return{
-        type : DECREMENT,
-    };
-};
+        type : DECREMENT
+    }
+}
 
-// create reducer for counter
-const counterReducer = (state = initialCounterState,action) => {
+const resetAction = () => {
+    return{
+        type : RESET
+    }
+}
+
+// Create Reducer
+
+const counterReducer = (state = intialState,action) =>{
     switch (action.type) {
         case INCREMENT:
-            return {
-                ...state,
-                count: state.count + 1
-            }
+           return{
+            ...state,
+            count: state.count + 1
+           }
         case DECREMENT:
-            return {
+            return{
                 ...state,
                 count: state.count - 1
+               }
+        case RESET:
+            return{
+                count: 0
             }
         default:
             state;
     }
 }
 
-// 1. state
-// 2. dispatch action
-// 3. reducer
-// 4. store - getState() , dispatch() , subscribe()
-
-//create store
-
-const store = createStore(counterReducer);
+//store
+const store = createStore(counterReducer)
 
 store.subscribe(()=>{
     console.log(store.getState())
 })
 
-//dispatch action
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(decrementCounter())
+store.dispatch(incrementAction())
+store.dispatch(resetAction())
+
 
 
